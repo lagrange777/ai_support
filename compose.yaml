@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    image: support-assistant:local
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY in .env}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.3-codex}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://api.openai.com/v1}
+      CRM_SECRET: ${CRM_SECRET:?Set a random CRM_SECRET in .env}
+      CRM_URL: http://crm:8096/mcp
+    ports: ["127.0.0.1:8086:8086"]
+    volumes:
+      - support-data:/data
+      - ./artifacts:/reports:ro
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    depends_on:
+      crm:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8086/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  crm:
+    build: .
+    image: support-assistant:local
+    entrypoint: ["/app/crm"]
+    environment:
+      LISTEN_ADDR: 0.0.0.0:8096
+      CRM_SECRET: ${CRM_SECRET:?Set a random CRM_SECRET in .env}
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8096/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+volumes:
+  support-data:

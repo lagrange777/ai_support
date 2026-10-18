@@ -1,0 +1,16 @@
+{
+  "source": "Only the web interface at http://127.0.0.1:8086/",
+  "frames": 322,
+  "errors": [],
+  "durationSeconds": 81.92,
+  "fps": 12,
+  "bytes": 1249788,
+  "audio": false,
+  "fullDecode": "passed",
+  "editing": "Inactive pauses between capture steps over 1.25 s shortened to 0.25 s. No overlays, desktop, terminal or fabricated responses.",
+  "liveQueries": [
+    "alice/T-101: Почему не работает авторизация?",
+    "bob/T-201: Почему не работает авторизация?",
+    "bob/T-201: Я уже синхронизировал время, но новый код по-прежнему не подходит. Что дальше?"
+  ]
+}

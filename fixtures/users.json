@@ -1,0 +1,4 @@
+[
+ {"id":"alice","name":"Анна Смирнова","plan":"Starter","status":"active","quotaMB":500,"usedMB":500},
+ {"id":"bob","name":"Борис Волков","plan":"Pro","status":"active","quotaMB":10000,"usedMB":3500}
+]
